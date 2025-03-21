@@ -1,0 +1,88 @@
+<div>
+    <button (click)="toggleForm()">registrar aerolinea
+  
+    </button>
+    <button>
+  
+    </button>
+  
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>IATA</th>
+        <th>Status</th>
+        <th>País</th>
+        <th>Fecha de Fundación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let aerolinea of aerolineas; let i =index" style="text-align: center;">
+        <td>{{ aerolinea.id }}</td>
+        <td>{{ aerolinea.nombre }}</td>
+        <td>{{ aerolinea.iata }}</td>
+  
+  
+        <td [ngClass]="{'text-success': aerolinea.estatus === 1,'text-danger':aerolinea.estatus===2}">
+            {{ aerolinea.estatus ===1? 'Disponible':"No dispoinible"}}
+        </td>
+  
+  
+        <td>{{ aerolinea.pais }}</td>
+        <td>{{ aerolinea.fechaFundacion|date:'dd/MM/yyyy' }}</td>
+  
+        <button (click)="editAerolinea(aerolinea)">
+          <i class="fa fa-edit"></i>Editar
+        </button>
+        <button (click)="aerolinea.id ? deleteAerolinea(aerolinea.id):null">
+          <i class="fa fa-edit"></i>Eliminar
+        </button>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div *ngIf="showForm" style="margin-top: 20px;">
+    <h3>{{textoModal}}
+    </h3>
+    <form [formGroup]="aerolineasForm" (ngSubmit)="onSubmit()">
+      <input hidden formControlName="id" readonly>
+      <div class="formGroup">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" class="form-control" formControlName="nombre"
+        pattern="^\S.*$" placeholder="Nombre">
+  
+      </div>
+      <div class="formGroup">
+        <label for="iata">Iata</label>
+        <input id="iata" class="form-control" formControlName="iata"
+        pattern="^\S.*$" placeholder="Iata">
+  
+      </div>
+      <div class="formGroup">
+        <label for="pais">Pais</label>
+        <input id="pais" class="form-control" formControlName="pais"
+        pattern="^\S.*$" placeholder="Pais">
+  
+      </div>
+      <div class="formGroup">
+        <label for="estatus">Estatus</label>
+        <select id="estatus" class="form-control" formControlName="estatus"
+        pattern="^\S.*$" placeholder="Estatus">
+        <option value="1">Disponible</option>
+        <option value="2">No Disponible</option>
+        </select>
+      </div>
+      <div class="formGroup">
+        <label for="fechaFundacion">Fecha fundacion</label>
+        <input id="fechaFundacion" class="form-control" formControlName="fechaFundacion"
+        pattern="^\S.*$" placeholder="Fecha de fundacion">
+  
+      </div>
+      <button type="submit" class="btn btn-success"[disabled]="aerolineasForm.invalid" style="margin-top: 20px;" >Guardar</button>
+  
+    </form>
+  
+  </div>

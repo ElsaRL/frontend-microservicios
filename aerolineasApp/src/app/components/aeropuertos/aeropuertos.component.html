@@ -1,0 +1,91 @@
+<div>
+    <button (click)="toggleForm()">registrar aeropuerto
+  
+    </button>
+    <button>
+  
+    </button>
+  
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Codigo</th>
+        <th>Latitud</th>
+        <th>Longitud</th>
+        <th>País</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let aeropuerto of aeropuertos; let i =index" style="text-align: center;">
+        <td>{{ aeropuerto.id }}</td>
+        <td>{{ aeropuerto.nombre }}</td>
+        <td>{{ aeropuerto.codigo }}</td>
+        <td>{{ aeropuerto.latitud }}</td>
+        <td>{{ aeropuerto.longitud }}</td>
+        <td>{{ aeropuerto.pais }}</td> 
+        <td [ngClass]="{'text-success': aeropuerto.estatus === 1,'text-danger':aeropuerto.estatus===2}">
+            {{ aeropuerto.estatus ===1? 'Disponible':"No dispoinible"}}
+        </td>
+    
+        <button (click)="editAeropuerto(aeropuerto)">
+          <i class="fa fa-edit"></i>Editar
+        </button>
+        <button (click)="aeropuerto.id ? deleteAeropuerto(aeropuerto.id):null">
+          <i class="fa fa-edit"></i>Eliminar
+        </button>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div *ngIf="showForm" style="margin-top: 20px;">
+    <h3>{{textoModal}}
+    </h3>
+    <form [formGroup]="aeropuertosForm" (ngSubmit)="onSubmit()">
+      <input hidden formControlName="id" readonly>
+      <div class="formGroup">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" class="form-control" formControlName="nombre"
+        pattern="^\S.*$" placeholder="Nombre">
+      </div>
+
+      <div class="formGroup">
+        <label for="codigo">Codigo</label>
+        <input id="codigo" class="form-control" formControlName="codigo"
+        pattern="^\S.*$" placeholder="Codigo">
+      </div>
+
+      <div class="formGroup">
+        <label for="latitud">Latitud</label>
+        <input id="latitud" class="form-control" formControlName="latitud"
+        pattern="^\S.*$" placeholder="latitud">
+      </div>
+
+      <div class="formGroup">
+        <label for="longitud">Longitud</label>
+        <input id="longitud" class="form-control" formControlName="longitud"
+        pattern="^\S.*$" placeholder="longitud">
+      </div>     
+
+      <div class="formGroup">
+        <label for="pais">Pais</label>
+        <input id="pais" class="form-control" formControlName="pais"
+        pattern="^\S.*$" placeholder="Pais">
+      </div>
+
+      <div class="formGroup">
+        <label for="estatus">Estatus</label>
+        <select id="estatus" class="form-control" formControlName="estatus"
+        pattern="^\S.*$" placeholder="Estatus">
+        <option value="1">Disponible</option>
+        <option value="2">No Disponible</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-success"[disabled]="aeropuertosForm.invalid" style="margin-top: 20px;" >Guardar</button>
+    </form>
+  </div>
+
